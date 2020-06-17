@@ -1,10 +1,31 @@
 const Post = require('../models/postModel');
+const User = require('../models/userModel');
+const { ExpectationFailed } = require('http-errors');
 
 module.exports={
    async postGetAll(req,res,next){
-        let posts=await Post.find();
+        let posts=await Post.find().populate('author');
         res.json(posts);
     },
+    async postCreate(req,res,next){
+         let user= await User.findOne({email:req.body.user});
+         let arrNewPost=[...user.posts];
+         let post=await Post.create({
+            title:req.body.title,
+            content:req.body.content,
+            createdAt:'17/06/2020',
+            author:user._id
+         })
+         arrNewPost.push(post._id);
+         post.execPopulate('author').then((data)=>{
+             User.findOneAndUpdate({ _id: data.author._id },{posts:arrNewPost},{new:true}).then((result)=>{
+                 res.json({err:false});
+             });
+               
+           
+         })
+         
+    }
 
     // postNew(req,res,next){
     //     res.render('posts/new');

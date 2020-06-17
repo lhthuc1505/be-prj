@@ -7,11 +7,23 @@ const UserSchema=new Schema({
    password:String,
    role:{
        type:String,
-       default:'user'
+       default:'admin'
    },
    posts:[{
     type:Schema.Types.ObjectId,
     ref:'Posts'
+}],
+questions:[{
+    type:Schema.Types.ObjectId,
+    ref:'Questions'
+}],
+answers:[{
+    type:Schema.Types.ObjectId,
+    ref:'Questions'
+}],
+notify:[{
+    type:Schema.Types.ObjectId,
+    ref:'Notify'
 }],
 },{
    collection:'Users'

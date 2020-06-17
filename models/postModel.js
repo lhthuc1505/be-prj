@@ -9,7 +9,8 @@ const PostSchema=new Schema({
       type:Schema.Types.ObjectId,
       ref:'Users'
    },
-   createdAt:String
+   createdAt:String,
+   fixedBy:String,
 },{
    collection:'Posts'
 });
